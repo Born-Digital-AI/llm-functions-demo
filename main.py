@@ -1,5 +1,7 @@
 import logging
 import json
+import copy
+
 
 from fastapi import FastAPI, Query
 from openai import OpenAI
@@ -19,7 +21,7 @@ client = OpenAI(timeout=10.0, max_retries=2)
 
 
 DEFAULT_MSG = [
-    {"role": "system", "content": "You are a Bakery Salesman. Help user buy bakery goods. If it is not a match, clarify with the user. Introduce yourself and ask user how you can help."},
+    {"role": "system", "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."},
 ]
 
 IN_MEM_DATA = {}
@@ -29,9 +31,11 @@ def get_data(CID):
     global IN_MEM_DATA
     try:
         data = IN_MEM_DATA[CID]
+        logging.info("Continue existing conversation")
         return data["messages"], data["cart"]
     except KeyError:
-        return DEFAULT_MSG, []
+        logging.info("Creating new conversation")
+        return copy.deepcopy(DEFAULT_MSG), []
 
 
 @app.get("/conversation/{CID}/user/")
@@ -59,7 +63,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         else:
             items = str([item.page_content for item in available_items_db.similarity_search(item_name)])
             logging.info(f"Found options for a query {items}")
-            return f"Wrong item. You should offer these similar items to the user: {items}"    
+            return f"Wrong item name. We can offer these similar items: {items}"    
 
     available_functions = {
         "add_item_to_cart": add_item_to_cart,
@@ -69,12 +73,14 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
 
     counter = 0
 
+    if text:
+        messages.append({"role": "user", "content": text})
+
     while counter < 5:
         counter += 1 
-        if text:
-            messages.append({"role": "user", "content": text})
 
         logging.info(f"\n Input messages: {messages}")
+
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-0125",
             messages=messages,
@@ -101,7 +107,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                     }
                 )
         else:
-            IN_MEM_DATA[CID]={"cart": cart, "messages": messages}
+            IN_MEM_DATA[CID] = {"cart": cart, "messages": messages}
             logging.info(f"\n GPT message: {response_message.content}")
             return {"text": response_message.content}
             
