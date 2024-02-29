@@ -1,0 +1,9 @@
+uvicorn
+fastapi
+langchain
+openai
+sentry-sdk 
+pydantic-settings 
+openai
+faiss-cpu
+langchain-openai
