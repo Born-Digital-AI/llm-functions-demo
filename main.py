@@ -8,6 +8,7 @@ import os
 from fastapi import FastAPI, Query
 from openai import OpenAI
 import openai 
+import urllib.parse
 
 logging.basicConfig(
     format='%(asctime)s.%(msecs)-03d %(name)s.%(funcName)s:%(lineno)-4s %(levelname)-8s %(message)s',
@@ -45,6 +46,7 @@ def get_data(CID):
 async def get_conversation_user(CID: str, text: str = Query(None)):
 
     messages, cart = get_data(CID)
+    text = urllib.parse.unquote(text)
 
     def get_cart_items() -> str:
         """Returns what is in the cart"""
@@ -66,7 +68,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         else:
             items = str([item.page_content for item in available_items_db.similarity_search(item_name)])
             logging.info(f"Found options for a query {items}")
-            return f"Wrong item name. We can offer these similar items: {items}"    
+            return f"Wrong item name. We can offer these similar items: {items}. If these are not similar, don't offer them."    
 
     available_functions = {
         "add_item_to_cart": add_item_to_cart,
@@ -85,7 +87,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         logging.info(f"\n Input messages: {messages}")
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
+            model="gpt-3.5-turbo-0125",#"gpt-4-turbo-preview",#
             messages=messages,
             tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout)],
         )
@@ -111,22 +113,25 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                     }
                 )
         else:
-            IN_MEM_DATA[CID] = {"cart": cart, "messages": messages}
+            IN_MEM_DATA[CID] = {"cart": cart, "messages": copy.deepcopy(messages)}
             logging.info(f"\n GPT message: {response_message.content}")
             timestamp = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
             dump_filename = f"messages_{CID}.json" 
             for i in range(len(messages)):
                 if isinstance(messages[i], openai.types.chat.chat_completion_message.ChatCompletionMessage):
                     messages[i] = {"role" : "assistant", "content" : messages[i].content}
+                if "tool_call_id" in messages[i]:
+                    messages[i] = {"role" : "function", "name" : messages[i]["name"], "content" : messages[i]["content"]}
             if os.path.isfile(dump_filename):
                 with open(dump_filename, "r", encoding = "UTF-8") as f:
                     dump = json.load(f)
-                dump["messages"] = messages
+                dump["messages"] = [msg for msg in messages if msg["content"] is not None]
             else:
-                dump = {"messages": messages, "functions": [get_openai_func_def(f)["function"] for key, f in available_functions.items()]}
+                dump = {"messages": [msg for msg in messages if msg["content"] is not None], \
+                        "functions": [get_openai_func_def(f)["function"] for key, f in available_functions.items()]}
 
             with open(dump_filename, "w", encoding = "UTF-8") as f:
-                json.dump(dump, f, ensure_ascii=False)  
+                json.dump(dump, f, ensure_ascii=False, indent=4)  
  
             return {"text": response_message.content}
     
