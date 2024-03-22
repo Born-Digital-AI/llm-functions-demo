@@ -1,10 +1,13 @@
 import logging
 import json
 import copy
+import datetime
+import os
 
 
 from fastapi import FastAPI, Query
 from openai import OpenAI
+import openai 
 
 logging.basicConfig(
     format='%(asctime)s.%(msecs)-03d %(name)s.%(funcName)s:%(lineno)-4s %(levelname)-8s %(message)s',
@@ -90,6 +93,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         logging.info(f"\n Response messages: {response_message}")
         
         messages.append(response_message)  
+ 
         tool_calls = response_message.tool_calls
 
         if tool_calls:
@@ -109,5 +113,21 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         else:
             IN_MEM_DATA[CID] = {"cart": cart, "messages": messages}
             logging.info(f"\n GPT message: {response_message.content}")
+            timestamp = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+            dump_filename = f"messages_{CID}.json" 
+            for i in range(len(messages)):
+                if isinstance(messages[i], openai.types.chat.chat_completion_message.ChatCompletionMessage):
+                    messages[i] = {"role" : "assistant", "content" : messages[i].content}
+            if os.path.isfile(dump_filename):
+                with open(dump_filename, "r", encoding = "UTF-8") as f:
+                    dump = json.load(f)
+                dump["messages"] = messages
+            else:
+                dump = {"messages": messages, "functions": [get_openai_func_def(f)["function"] for key, f in available_functions.items()]}
+
+            with open(dump_filename, "w", encoding = "UTF-8") as f:
+                json.dump(dump, f, ensure_ascii=False)  
+ 
             return {"text": response_message.content}
-            
+    
+   
