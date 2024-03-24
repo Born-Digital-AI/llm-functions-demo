@@ -25,7 +25,7 @@ client = OpenAI(timeout=10.0, max_retries=2)
 
 
 DEFAULT_MSG = [
-    {"role": "system", "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."},
+    {"role": "system", "content": f"You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině. Vždy uživateli nabízej varianty výrobků. Máš k dispozici tyto produkty: {available_items}"},
 ]
 
 IN_MEM_DATA = {}
@@ -68,7 +68,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         else:
             items = str([item.page_content for item in available_items_db.similarity_search(item_name)])
             logging.info(f"Found options for a query {items}")
-            return f"Wrong item name. We can offer these similar items: {items}. If these are not similar, don't offer them."    
+            return f"Wrong item name. We can offer these similar items: {items}. If these are not similar, don't offer them. If none of these items is similar, say what you have in general."    
 
     available_functions = {
         "add_item_to_cart": add_item_to_cart,
@@ -86,11 +86,18 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
 
         logging.info(f"\n Input messages: {messages}")
 
+        
+        messages_for_chat = copy.deepcopy(messages)
+        for msg in messages_for_chat:
+            if "arguments" in msg:
+                del msg["arguments"]
+                
         response = client.chat.completions.create(
             model="gpt-3.5-turbo-0125",#"gpt-4-turbo-preview",#
-            messages=messages,
+            messages= messages_for_chat,
             tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout)],
         )
+        
         response_message = response.choices[0].message
         logging.info(f"\n Response messages: {response_message}")
         
@@ -110,6 +117,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                         "role": "tool",
                         "name": function_name,
                         "content": function_response,
+                        "arguments": function_args
                     }
                 )
         else:
@@ -121,7 +129,9 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                 if isinstance(messages[i], openai.types.chat.chat_completion_message.ChatCompletionMessage):
                     messages[i] = {"role" : "assistant", "content" : messages[i].content}
                 if "tool_call_id" in messages[i]:
-                    messages[i] = {"role" : "function", "name" : messages[i]["name"], "content" : messages[i]["content"]}
+                    messages[i] = {"role" : "function", "name" : messages[i]["name"], "arguments" : messages[i]["arguments"], "content" : messages[i]["content"]}
+                if messages[i]["role"] == "system":
+                    messages[i]["content"] = "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
             if os.path.isfile(dump_filename):
                 with open(dump_filename, "r", encoding = "UTF-8") as f:
                     dump = json.load(f)
