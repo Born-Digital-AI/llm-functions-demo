@@ -3,3 +3,4 @@
 .venv
 failed_chunks/*
 faiss_index_all_regulations/*
+.spyproject

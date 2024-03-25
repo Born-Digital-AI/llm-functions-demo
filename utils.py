@@ -12,7 +12,13 @@ def get_openai_func_def(func):
               "required": [name for name, param in inspect.signature(func).parameters.items() if param.default == inspect.Parameter.empty]
                 }
     else:
-        parameters = None
+        parameters = {
+              "type": "object",
+              "properties": {},
+              "required": []
+              }
+
+  #      parameters = None
         
     func_def = {
             "type": "function",

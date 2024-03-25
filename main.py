@@ -25,7 +25,7 @@ client = OpenAI(timeout=10.0, max_retries=2)
 
 
 DEFAULT_MSG = [
-    {"role": "system", "content": f"You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině. Vždy uživateli nabízej varianty výrobků. Máš k dispozici tyto produkty: {available_items}"},
+    {"role": "system", "content": f"You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině. Prodáváš různé chleby, rohlíky, koláče, vánočky atd."} #" Vždy uživateli nabízej varianty výrobků. Máš k dispozici tyto produkty: {available_items}"},
 ]
 
 IN_MEM_DATA = {}
@@ -57,9 +57,16 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         """Confirms order from a client"""
         logging.info("Confirming the order")
         return "Done"
+    
+    def give_options(item_name: str) -> str:
+        """Offer options for what the customer wants"""
+        logging.info(f"Offering products similar to {item_name}.")
+        items = str([item.page_content for item in available_items_db.similarity_search(item_name)])
+        logging.info(f"Found options for a query {items}")
+        return f"We can offer these options: {items}. If some oh these items are not {item_name}, don't mention them. If none of these items is {item_name}, say that you are sorry and ask for something else."    
 
     def add_item_to_cart(item_name: str, count: int) -> str:
-        """Add item to a cart"""
+        """Add item to a cart or offer alternatives"""
         logging.info(f"Trying to add item {item_name} with count {count} to a cart.")
         if item_name in available_items:
             cart.append({"item_name": item_name, "count": count})
@@ -68,12 +75,13 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         else:
             items = str([item.page_content for item in available_items_db.similarity_search(item_name)])
             logging.info(f"Found options for a query {items}")
-            return f"Wrong item name. We can offer these similar items: {items}. If these are not similar, don't offer them. If none of these items is similar, say what you have in general."    
+            return f"Wrong item name. We can offer these similar items: {items}. If these are not similar to {item_name}, don't offer them. If none of these items is similar to {item_name}, say that you are sorry and ask for something else."    
 
     available_functions = {
         "add_item_to_cart": add_item_to_cart,
         "checkout": checkout,
-        "get_cart_items": get_cart_items
+        "get_cart_items": get_cart_items,
+        "give_options": give_options,
     }  
 
     counter = 0
@@ -93,9 +101,9 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                 del msg["arguments"]
                 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",#"gpt-4-turbo-preview",#
+            model="ft:gpt-3.5-turbo-0125:born-digital-s-r-o:baker:96bl5pR7",#gpt-3.5-turbo-0125",#"gpt-4-turbo-preview",#
             messages= messages_for_chat,
-            tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout)],
+            tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout), get_openai_func_def(give_options)],
         )
         
         response_message = response.choices[0].message
@@ -132,6 +140,9 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                     messages[i] = {"role" : "function", "name" : messages[i]["name"], "arguments" : messages[i]["arguments"], "content" : messages[i]["content"]}
                 if messages[i]["role"] == "system":
                     messages[i]["content"] = "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+                if messages[i]["role"] == "function": #trim function reponses after basic info
+                    messages[i]["content"] = messages[i]["content"].split("If")[0]
+                    
             if os.path.isfile(dump_filename):
                 with open(dump_filename, "r", encoding = "UTF-8") as f:
                     dump = json.load(f)
