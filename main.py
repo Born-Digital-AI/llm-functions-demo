@@ -43,7 +43,7 @@ def get_data(CID):
 
 
 @app.get("/conversation/{CID}/user/")
-async def get_conversation_user(CID: str, text: str = Query(None)):
+def get_conversation_user(CID: str, text: str = Query(None)):
 
     messages, cart = get_data(CID)
     text = urllib.parse.unquote(text)
@@ -85,6 +85,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
     }  
 
     counter = 0
+    done = False
 
     if text:
         messages.append({"role": "user", "content": text})
@@ -101,7 +102,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                 del msg["arguments"]
                 
         response = client.chat.completions.create(
-            model="ft:gpt-3.5-turbo-0125:born-digital-s-r-o:baker:96bl5pR7",#gpt-3.5-turbo-0125",#"gpt-4-turbo-preview",#
+            model="gpt-3.5-turbo-0125",#3"gpt-4-turbo-preview",#"ft:gpt-3.5-turbo-0125:born-digital-s-r-o:baker:96bl5pR7"
             messages= messages_for_chat,
             tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout), get_openai_func_def(give_options)],
         )
@@ -128,6 +129,8 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
                         "arguments": function_args
                     }
                 )
+                if function_name == "checkout":
+                    done = True
         else:
             IN_MEM_DATA[CID] = {"cart": cart, "messages": copy.deepcopy(messages)}
             logging.info(f"\n GPT message: {response_message.content}")
@@ -154,6 +157,40 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
             with open(dump_filename, "w", encoding = "UTF-8") as f:
                 json.dump(dump, f, ensure_ascii=False, indent=4)  
  
-            return {"text": response_message.content}
+            return {"text": response_message.content, "done": done}
     
-   
+@app.get("/conversation/simulate/{CID}")
+def simulate_conversation(CID: str):   
+    def bye() -> str:
+        """Says goodbye when the purchase is finished and the seller asks no more questions"""
+        logging.info("Finalizing purchase")
+        return "Bye"
+    
+    client_user = OpenAI(timeout=10.0, max_retries=2)
+    messages = []
+    messages.append({"role": "system", "content": "Jsi zákazník obchodu s pečivem a chceš si koupit pečivo, například koláč, buchtu, vánočku, dort, bábovku, veku, chléb, nebo rohlík. Buď stručný."})#" Když se prodejce už na nic neptá, ukonči hovor slovy 'Na shledanou'"})
+    messages.append({"role": "assistant", "content": "Dobrý den"})
+    
+    i = 0
+    done = False
+    while i < 10 and not done:
+        sim_user = get_conversation_user(CID, messages[-1]["content"])
+        messages.append({"role": "user", "content": sim_user["text"]})
+        done = sim_user["done"]
+  #      logging.info(f"\n User: {sim_user['text']}")
+        response = client_user.chat.completions.create(
+            model="gpt-3.5-turbo-0125",#"gpt-4-turbo-preview",#
+            messages= messages)
+           # tools=[get_openai_func_def(bye)])
+        messages.append({"role": "assistant", "content": response.choices[0].message.content})
+        i += 1
+        
+        if done: #or "shledanou" in response.choices[0].message.content:
+       #     print(response.choices[0].message.content, flush=True)
+       #     print(done,  flush=True)
+       #     print("shledanou" in response.choices[0].message.content)
+            return {"status" : f"Checkout completed after {i} turns."}
+        
+    
+    return {"status" : "Interrupted after 10 turns."}
+
