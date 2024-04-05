@@ -1,0 +1,141 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes s nákupem pečiva? Máte nějaké speciální přání nebo dotaz?"
+        },
+        {
+            "role": "user",
+            "content": "Máte nějaké dorty?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "dort"
+            },
+            "content": "We can offer these options: ['Vdolek bavorský 60g', 'Buchty 65g', 'Houska 43g', 'Buchty DIA 65g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Máme tyto možnosti: Vdolek bavorský 60g, Buchty 65g, Buchty DIA 65g. Zajímají Vás některé z těchto dortů nebo hledáte něco jiného? Budeme rádi, když nám sdělíte Vaše preference."
+        },
+        {
+            "role": "user",
+            "content": "Spíš nějaký koláč"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "koláč"
+            },
+            "content": "We can offer these options: ['Koláč kulatý 80g', 'Koláč velký 130g', 'Koláč kulatý malý 30g', 'Koláč kulatý DIA 80g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Máme tyto možnosti: Koláč kulatý 80g, Koláč velký 130g, Koláč kulatý malý 30g, Koláč kulatý DIA 80g. Zajímá Vás některý z těchto koláčů nebo hledáte jiný druh? Dejte mi vědět, jak Vám mohu dále pomoci."
+        },
+        {
+            "role": "user",
+            "content": "Co nějaký skořicový?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "koláč skořicový"
+            },
+            "content": "We can offer these options: ['Koláč skořicový 85g', 'Koláč šáteček 75g', 'Koláč kulatý 80g', 'Koláč hřeben 75g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Máme tyto možnosti: Koláč skořicový 85g, Koláč šáteček 75g, Koláč kulatý 80g, Koláč hřeben 75g. Zajímá Vás některý z těchto skořicových koláčů nebo si přejete něco jiného? Dejte mi vědět, jak Vám mohu dále pomoci."
+        },
+        {
+            "role": "user",
+            "content": "3 ks  Koláč skořicový 85g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Koláč skořicový 85g",
+                "count": "3"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka 3 ks Koláč skořicový 85g byla úspěšně přidána do košíku. Jakýkoliv další požadavek nebo speciální přání? Můžete pokračovat v nákupu nebo dokončit objednávku. Děkuji!"
+        },
+        {
+            "role": "user",
+            "content": "Dokončit"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkujeme za nákup! Pokud budete potřebovat další pomoc, neváhejte se na mě obrátit. Pěkný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": null
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": null
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

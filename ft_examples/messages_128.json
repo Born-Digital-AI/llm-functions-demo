@@ -1,0 +1,110 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, vezmu si slunečnicový chléb."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Slunečnicový chléb",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Slunečnicový chléb 400g', 'Kornový chléb 400g', 'Bělohradský chléb – malý 500g', 'Chléb pivní 500g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Mohu Vám nabídnout některé podobné možnosti: \"Slunečnicový chléb 400g\", \"Kornový chléb 400g\", \"Bělohradský chléb – malý 500g\", \"Chléb pivní 500g\". Prosím, dejte mi vědět, který druh chleba si přejete, nebo pokud preferujete jiný typ, dejte mi vědět. Děkuji."
+        },
+        {
+            "role": "user",
+            "content": "Slunečnicový chléb 400g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Slunečnicový chléb 400g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělé! Váš slunečnicový chléb 400g byl úspěšně přidán do košíku. Máte-li ještě nějaké další přání, prosím dejte mi vědět. Chce přejít pokladně?"
+        },
+        {
+            "role": "user",
+            "content": "Chci k pokladně."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně zpracována. Děkuji za nákup! Pokud budete chtít ještě něco dalšího nebo potřebujete další pomoc, neváhejte mi napsat. Přeji krásný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

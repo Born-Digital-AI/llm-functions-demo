@@ -1,0 +1,119 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes ohledně našich pečivařských výrobků? Máte zájem o něco konkrétního nebo potřebujete poradit s výběrem?"
+        },
+        {
+            "role": "user",
+            "content": "Vezmu si deset housek."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "housky",
+                "count": "10"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Houska 43g', 'Houska velká 86g', 'Loupák 70g', 'Loupák plněný 75g']. "
+        },
+
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto alternativy: 'Houska 43g', 'Houska velká 86g'. Zajímá Vás některá z těchto možností?"
+        },
+        {
+            "role": "user",
+            "content": "Houska 43g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Houska 43g",
+                "count": "10"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Houska 43g byla přidána do košíku. Máte ještě další požadavky nebo mohu pokračovat s dokončením objednávky?"
+        },
+        {
+            "role": "user",
+            "content": "Pokračovat"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkuji za nákup! Pokud budete potřebovat další pomoc nebo máte další přání ohledně pečiva, neváhejte se ozvat. Hezký den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

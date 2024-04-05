@@ -1,0 +1,111 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Chci vánočku"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jsem pekař a rád vám pomohu s nákupem. Jakou vánočku byste si přesně přál/a? Máte rád/a tradiční vánočku s ovocem nebo nějakou speciální variantu?"
+        },
+        {
+            "role": "user",
+            "content": "Klasickou vánočku"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "klasická vánočka"
+            },
+            "content": "We can offer these options: ['Vánočka s rozinkami 200g', 'Vánočka máslová rozinková mandlová 600g', 'Vánočka 400g', 'Vánočka DIA 400g']. If these are not similar to klasická vánočka, don't mention them. If none of these items is similar, say that you are sorry and ask for something else."
+        },
+        {
+            "role": "assistant",
+            "content": "Mohu vám nabídnout následující alternativy: Vánočka s rozinkami 200g, Vánočka máslová rozinková mandlová 600g, Vánočka 400g nebo Vánočka DIA 400g. Zajímá vás některá z těchto variant, nebo byste si přál/a něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Vánočka 400g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Vánočka 400g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vánočka 400g byla úspěšně přidána do košíku. Můžu vám ještě s něčím dalším pomoci, nebo máte hotovo a chcete pokračovat k pokladně?"
+        },
+        {
+            "role": "user",
+            "content": "Chci ještě jednu"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Vánočka 400g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Další Vánočka 400g byla úspěšně přidána do košíku. Máte v košíku všechno, co potřebujete, nebo máte zájem o další pečivo nebo dezerty?"
+        },
+        {
+            "role": "user",
+            "content": "Mám všechno"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkuji za nákup! Pokud budete potřebovat v budoucnu další pečivo nebo dezerty, neváhejte mě kontaktovat. Přeji vám krásný den! Hádejte."
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": null
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": null
+        }
+    ]
+}

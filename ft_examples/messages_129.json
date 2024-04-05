@@ -1,0 +1,118 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den, vítejte! Jak vám mohu pomoci dnes ohledně našich pečivových výrobků? Chcete si něco vybrat nebo potřebujete poradit s výběrem?"
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, rád bych 3 kousky klasických makových koláčků, prosím. Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "klasické makové koláčky",
+                "count": "3"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Špička s náplní makovou 2ks á 110g', 'Koláč šáteček 75g', 'Špička s náplní makovou a tvarohovou 2ks á110g', 'Vánočka mandlová 400g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale nemáme přesně \"klasické makové koláčky\". Máme však několik podobných možností, například \"Špička s náplní makovou 2ks á 110g\", \"Koláč šáteček 75g\" nebo \"Špička s náplní makovou a tvarohovou 2ks á110g\". Mohu vám s něčím z těchto možností pomoci nebo se rozhodnete pro něco jiného? Děkuji."
+        },
+        {
+            "role": "user",
+            "content": "Ano, rád si dám \"Špičku s náplní makovou\". Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Špička s náplní makovou 2ks á 110g",
+                "count": "3"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělá volba! \"Špička s náplní makovou 2ks á 110g\" byla úspěšně přidána do vašeho košíku. Pokud to bude vše, můžeme pokračovat k platbě nebo ještě něco potřebujete? Děkuji."
+        },
+        {
+            "role": "user",
+            "content": "Ano, to by bylo vše. Můžeme pokračovat k platbě. Děkuji za vaši pomoc."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně zpracována. Děkuji vám za nákup a přeji pěkný den! Pokud budete chtít nakupovat zase, neváhejte se na nás obrátit. Hezký den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

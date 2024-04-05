@@ -1,0 +1,118 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes? Máte zájem o nějaké pečivo nebo sladkosti z naší pekárny?"
+        },
+        {
+            "role": "user",
+            "content": "Dám si jablečnou taštičku."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "jablečná taštička",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Taštička jablečná 70g', 'Taštička povidlová 70g', 'Koláč šáteček 75g', 'Koláček balený kulatý (tácek) -malé bal. 125g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto alternativy, by se vám mohly líbit: Taštička jablečná 70g, Taštička povidlová 70g. Mohu Vám nabídnout něco z této nabídky nebo máte zájem o něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Taštička jablečná 70g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Taštička jablečná 70g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělé! Taštička jablečná 70g byla úspěšně přidána do košíku. Máte ještě zájem o něco dalšího, nebo můžeme pokračovat k pokladně?"
+        },
+        {
+            "role": "user",
+            "content": "K pokladně"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně odeslána. Děkuji za nákup! Pokud budete mít další přání nebo potřeby, neváhejte se ozvat. Hezký den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

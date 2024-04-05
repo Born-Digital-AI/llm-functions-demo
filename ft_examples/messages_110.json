@@ -1,0 +1,118 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den, vítám vás v našem pekařství! Jsem tu, abych vám pomohl s výběrem čerstvých pečiv. Máme různé druhy chleba, rohlíky, koláče, vánočky a mnoho dalších lahůdek. Jak vám mohu dnes pomoci?"
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, mohl bych si prosím objednat jeden kousek čerstvé bábovky? Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "bábovka",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Bábovka 450g', 'Bábovka DIA 450g', 'Bábovky MIX (3ks mramorová 400g, 3ks šlehaná 400g) 2400g', 'Taštička povidlová 70g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale konkrétně 'čerstvou bábobku' nemáme. Mohu vám však nabídnout několik alternativ:\n- Bábovka 450g\n- Bábovka DIA 450g\n- Bábovky MIX (3ks mramorová 400g, 3ks šlehaná 400g) 2400g\\n\nProsím, dejte mi vědět, která z těchto možností by vás nejvíce zajímala."
+        },
+        {
+            "role": "user",
+            "content": "Rád bych objednal normální bábovku 450g. Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Bábovka 450g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělá volba! Bábovka 450g byla přidána do vašeho košíku. Potřebujete ještě s něčím pomoci, nebo byste rádi dokončili objednávku?"
+        },
+        {
+            "role": "user",
+            "content": "To je pro dnešek vše, děkuji za pomoc. Pokračujte ve vaší kokectedeleprestashoporestဝ.\n"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkujeme vám za nákup a přeji vám příjemné pochutnání na naší bábovce. Těšíme se na vaši další návštěvu!\nPokud budete mít jakékoli další požadavky nebo otázky, neváhejte se na nás obrátit. Přeji vám krásný zbytek dne!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

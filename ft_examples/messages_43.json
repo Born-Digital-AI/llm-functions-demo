@@ -1,0 +1,126 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jsem pekařský prodavač. Jak vám mohu pomoci dnes? Máte zájem o nějaké pekařské výrobky jako chleby, rohlíky, koláče nebo vánočky? Stačí mi říct, co hledáte, a já vám rád pomůžu."
+        },
+        {
+            "role": "user",
+            "content": "Máte nějaké dorty?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "dorty"
+            },
+            "content": "We can offer these options: ['Vdolek bavorský 60g', 'Buchty 65g', 'Buchty DIA 65g', 'Trojhránek polomáčený 70g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Máme následující možnosti dortů: Vdolek bavorský 60g, Buchty 65g, Buchty DIA 65g, Trojhránek polomáčený 70g. Zajímá vás nějaký z těchto dortů nebo hledáte něco jiného? Stačí mi říct, jaký dort hledáte, a rád vám poradím."
+        },
+        {
+            "role": "user",
+            "content": "Dám si Trojhránek polomáčený 70g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Trojhránek polomáčený 70g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Trojhránek polomáčený 70g byl přidán do košíku. Máte ještě zájem o něco dalšího nebo můžeme pokračovat k pokladně?"
+        },
+        {
+            "role": "user",
+            "content": "A ještě dva ty bavorské vdolky"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Vdolek bavorský 60g",
+                "count": "2"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka Vdolků bavorských 60g byla přidána do košíku. Máte ještě nějaké další přání ohledně pekařských výrobků nebo si můžeme pokračovat k dokončení objednávky?"
+        },
+        {
+            "role": "user",
+            "content": "Dokončit objednávku"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkuji za nákup! Pokud budete mít další požadavky nebo otázky ohledně našich pekařských výrobků, neváhejte se ozvat. Přeji vám pěkný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": null
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": null
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

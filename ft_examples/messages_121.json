@@ -1,0 +1,117 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak vám mohu pomoci dnes ohledně pečiva? Máte zájem o nějaké konkrétní pečivo nebo se chcete jen podívat na naši nabídku?"
+        },
+        {
+            "role": "user",
+            "content": "Máte makovec?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "makovec"
+            },
+            "content": "We can offer these options: ['Makovec 100g', 'Mazanec 400g', 'Mazanec s rozinkami sypaný mandlemi 400g', 'Zelňák 30g - předpečený']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto možnosti: \n\n- Makovec 100g\n\nJaké množství makovce byste si přál/a nebo byste měl/a zájem o něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Jeden makovec 100g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Makovec 100g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Makovec 100g byl přidán do košíku. Máte zájem o něco dalšího nebo si přejete pokračovat k úhradě?"
+        },
+        {
+            "role": "user",
+            "content": "K úhradě."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně zpracována. Děkuji za nákup! Pokud budete potřebovat cokoli dalšího, neváhejte se ozvat. Mějte krásný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

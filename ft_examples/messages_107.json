@@ -1,0 +1,153 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes ohledně pečiva? Máte zájem o něco konkrétního?"
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, chtěl bych prosím koupit dva croissanty a jedno křupavé bagetové pečivo. Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "croissant",
+                "count": "2"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Koláč kulatý malý 30g', 'Koláček kulatý 18g', 'Rohlík ZLATÝ 60g', 'Rohlík 43g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "bagetové pečivo",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Biskupský chlebíček 200g', 'Bělohradský chléb – malý 500g', 'Koláč větší vázaný 100g', 'Koláč šáteček 75g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale momentálně nenabízíme přímo croissanty ani bagetové pečivo. Můžme nabídnout některé podobné položky:\n\n Rohlík 43g\nRohlík ZLATÝ 60g\nBělohradský chléb – malý 500g\nVyberete si, nebo chcete zkusit něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Dobře, rád bych tedy místo bagetového pečiva koupil celozrnný chléb a místo croissantů dva rohlíky 43g. Děkuji za nabídku."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "celozrnný chléb",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Kornový chléb 400g', 'Bělohradský chléb – malý 500g', 'Bělohradský chléb 930g', 'Chléb malý 500g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Rohlík 43g",
+                "count": "2"
+            },
+            "content": "Item added to the cart."
+        },
+        {
+            "role": "assistant",
+            "content": "Dva rohlíky byly přidány do košíku. Omlouvám se, ale aktuálně nemáme v nabídce celozrnný chléb. Můžeme nabídnout některé podobné položky:\n\nKornový chléb 400g\n Bělohradský chléb – malý 500g\nBělohradský chléb 930g\nChléb malý 500g\n\n. Co byste si přál/a?"
+        },
+        {
+            "role": "user",
+            "content": "Děkuji za nabídku. Z vašich možností bych si zvolil Chléb malý 500g. Děkuji za vaši pomoc."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Chléb malý 500g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělá volba! Chléb malý 500g byl úspěšně přidán do košíku. Můžete pokračovat v nákupu nebo pokračovat k pokladně k dokončení objednávky. Děkuji za váš výběr a rád/a vám pomohu s dalšími potřebami."
+        },
+        {
+            "role": "user",
+            "content": "Děkuji za pomoc. Jsem spokojen s výběrem a pokračuji k pokladně. Děkuji za vaši pozornost."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Děkuji za vaši objednávku! Pokladní postup byl úspěšně dokončen. Pokud budete mít jakékoli další otázky nebo požadavky ohledně pečiva, obraťte se na mě kdykoli. Přeji vám krásný den a dobrou chuť!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

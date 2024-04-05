@@ -1,0 +1,117 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, máte nějaký čokoládoý dort?"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jsem pekařský prodavač a rád vám pomůžu s nákupem. Momentálně nemám čokoládový dort, ale mohu vám nabídnout něco jiného s čokoládou nebo vám ukázat další možnosti. Jak vám mohu pomoci dál?"
+        },
+        {
+            "role": "user",
+            "content": "Co s čokoládou máte?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "čokoláda"
+            },
+            "content": "We can offer these options: ['Skořicový cop čoko 55g', 'Taštička nugátová 70g', 'Celozrnná pochoutka 60g', 'Taštička povidlová 70g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto možnosti s čokoládou: \"Skořicový cop čoko 55g\", \"Taštička nugátová 70g\". Zajímá vás něco z toho, nebo byste měl/a zájem o něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Vezmu si pár nugátových taštiček."
+        },
+        {
+            "role": "assistant",
+            "content": "Kolik znamený pár?"
+        },
+        {
+            "role": "user",
+            "content": "Pět."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Taštička nugátová 70g",
+                "count": "5"
+            },
+            "content": "Item added to the cart"
+       },
+        {
+            "role": "assistant",
+            "content": "Fantastické! Pět kusů položky \"Taštička nugátová 70g\" bylo úspěšně přidáno do vašeho košíku. Můžete pokračovat v nákupu nebo dokončit objednávku. Jak vám mohu dále pomoci?"
+        },
+        {
+            "role": "user",
+            "content": "Dokončit objednávku."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena! Děkuji za nákup. Pokud budete potřebovat další pomoc nebo něco jiného, neváhejte se ozvat. Přeji vám pěkný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": null
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": null
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

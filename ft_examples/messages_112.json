@@ -1,0 +1,136 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak vám mohu pomoci dnes? Máte zájem o nějaké pečivo nebo sladkosti z naší pekárny?"
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, chtěl bych si koupit koláč a buchtu, prosím. Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "koláč",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Koláč kulatý 80g', 'Koláč velký 130g', 'Koláč kulatý malý 30g', 'Koláč kulatý DIA 80g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "bucha",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Buchty 65g', 'Buchty DIA 65g', 'Buchty GASTRO 58g', 'Bulka 50g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto možnosti:\n\nKoláče:\n- Koláč kulatý 80g\n- Koláč velký 130g\n- Koláč kulatý malý 30g\n- Koláč kulatý DIA 80g\n\nBuchty:\n- Buchty 65g\n- Buchty DIA 65g\n- Buchty GASTRO 58g\n\n\nMohu vám s něčím z těchto možností pomoci?"
+        },
+        {
+            "role": "user",
+            "content": "Dobře, z vaší nabídky by mě zaujal Koláč velký 130g a Buchty 65g. Můžete mi prosím tyto dva kusy připravit? Díky."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Koláč velký 130g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Buchty 65g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka Koláče velkého 130g a Buchty 65g byla úspěšně přidána do košíku. Máte-li ještě nějaké další přání nebo potřebujete něco dalšího, dejte mi vědět. Mohu pokračovat s dokončením objednávky?"
+        },
+        {
+            "role": "user",
+            "content": "Ano, můžete pokračovat s dokončením objednávky. Děkuji vám za pomoc!"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkuji vám za nákup a máte-li jakékoliv další přání, neváhejte mě kontaktovat. Přeji vám pěkný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

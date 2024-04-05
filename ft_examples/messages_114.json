@@ -1,0 +1,135 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak vám mohu dále pomoci s nákupem pečiva? Máte nějaké další speciální požadavky nebo přání?"
+        },
+        {
+            "role": "user",
+            "content": "Chtěl bych pár preclíků."
+        },
+        {
+            "role": "assistant",
+            "content": "Kolik kusů pro vás znamená pár?"
+        },
+        {
+            "role": "user",
+            "content": "Tak 4."
+        },
+
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "preclíky",
+                "count": "4"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Chutný preclík 100g', 'Chutný preclík celozrnný 100g', 'Chutný preclík velký - 4ks (110g', 'Zelňák 30g - předpečený']. "
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "preclíky"
+            },
+            "content": "We can offer these options: ['Chutný preclík 100g', 'Chutný preclík celozrnný 100g', 'Chutný preclík velký - 4ks (110g', 'Zelňák 30g - předpečený']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale nemáme přesně preclíky. Můžeme nabídnout například \"Chutný preclík 100g\", \"Chutný preclík celozrnný 100g\" nebo\" Chutný preclík velký - 4ks 110g\". Zajímají vás tyto možnosti nebo si přejete něco jiného? Děkuji!"
+        },
+        {
+            "role": "user",
+            "content": "Ano, chutný preclík 100g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Chutný preclík 100g",
+                "count": "4"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Čtyři chutné preclíky máte v košíku. Přejete si ještě něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Ne, to je všechno."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka čtyř preclíků byla úspěšně dokončena. Děkuji za nákup! Jestli budete potřebovat ještě něco dalšího, neváhejte mi napsat. Přeji krásný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,117 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den, vítejte v naší pekárně! Rád vám pomohu s výběrem pečiva. Máme různé druhy chleba, rohlíky, koláče, vánočky a mnoho dalšího. Co byste si přáli koupit?"
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, rád bych si koupil koláč.\n\n"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "koláč"
+            },
+            "content": "We can offer these options: ['Koláč kulatý 80g', 'Koláč velký 130g', 'Koláč kulatý malý 30g', 'Koláč kulatý DIA 80g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Máme pro vás několik druhů koláčů:\n\n- Koláč kulatý 80g\n- Koláč velký 130g\n- Koláč kulatý malý 30g\n- Koláč kulatý DIA 80g\n\nKterý z nich byste si přál? Nebo máte zájem o více kusů některého z nich?"
+        },
+        {
+            "role": "user",
+            "content": "Rád bych si koupil jeden koláč kulatý 80g, prosím.}"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Koláč kulatý 80g",
+                "count": "3"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělý výběr! 3 kusy Kulatého koláče o váze 80g byly přidány do vašeho košíku. Můžu vám ještě s něčím pomoci, nebo si přejete pokračovat k pokladně?"
+        },
+        {
+            "role": "user",
+            "content": "Chci pokračovat k pokladně."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkujeme za nákup v naší pekárně! Pokud budete mít jakékoli další požadavky nebo otázky, neváhejte se na nás kdykoli obrátit. Přeji vám krásný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

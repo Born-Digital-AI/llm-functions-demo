@@ -1,0 +1,153 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dva obyčejné rohlíky a jeden chléb Šumava."
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den, jsem pekařský prodavač. Jak Vám mohu pomoci dnes? Chcete si koupit nějaké pečivo nebo dorty?"
+        },
+        {
+            "role": "user",
+            "content": "Dva obyčejné rohlíky a jeden chléb Šumava."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "obyčejný rohlík",
+                "count": "2"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Rohlík kornový 60g', 'Rohlík RUSTAL 60g', 'Rohlík velký 60g', 'Rohlík 43g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "chléb Šumava",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Chléb s kmínem Šumava 6x570g 3420gBK', 'Slunečnicový chléb 400g', 'Kornový chléb 400g', 'Bělohradský chléb – malý 500g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale nemám přesně \"obyčejný rohlík\" nebo \"chléb Šumava\" ve svém sortimentu. Můžu Vám nabídnout následující podobné položky:\n\n- Za rohlíky: Rohlík 43g, Rohlík kornový 60g, Rohlík RUSTAL 60g, Rohlík velký 60g\n- Za chléb Šumava: Chléb s kmínem Šumava 6x570g 3420gBK, Slunečnicový chléb 400g, Kornový chléb 400g, Bělohradský chléb – malý 500g\n\nMáte zájem o některý z těchto produktů?"
+        },
+        {
+            "role": "user",
+            "content": "Ano, dva rohlíky 42g a jeden slunečnicový chléb."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Rohlík 42g",
+                "count": "2"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Rohlík 43g', 'Rohlík 43g', 'Rohlík velký 60g', 'Rohlík kornový 60g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Slunečnicový chléb 400g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale nemám přesně \"Rohlík 42g\" ve svém sortimentu. Můžu Vám nabídnout následující podobné položky:\n\n- Za rohlíky: Rohlík 43g, Rohlík velký 60g, Rohlík kornový 60g\n\nMáte zájem o některý z těchto produktů? Váš požadavek na \"Slunečnicový chléb 400g\" byl úspěšně přidán do košíku. Mohu Vám s něčím dalším pomoci nebo byste chtěli pokračovat k úhradě objednávky?"
+        },
+        {
+            "role": "user",
+            "content": "Pardon, dva rohlíky 43g."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Rohlík 43g",
+                "count": "2"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Dva Rohlíky 43g byly úspěšně přidány do košíku. Máte nějaké další přání nebo si přejete pokračovat k úhradě objednávky?"
+        },
+        {
+            "role": "user",
+            "content": "Pokračovat k úhradě."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkuji za nákup! Pokud budete chtít něco dalšího, neváhejte mě kontaktovat. Přeji hezký den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

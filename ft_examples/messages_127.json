@@ -1,0 +1,134 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes? Máte zájem o nějaké pečivo nebo dorty?"
+        },
+        {
+            "role": "user",
+            "content": "Rád bych ochutnal váš nejoblíbenější koláč a máslové rohlíky, prosím. Děkuji za doporučení!"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "koláč"
+            },
+            "content": "We can offer these options: ['Koláč kulatý 80g', 'Koláč velký 130g', 'Koláč kulatý malý 30g', 'Koláč kulatý DIA 80g']. "
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "máslové rohlíky"
+            },
+            "content": "We can offer these options: ['Rohlík ZLATÝ 60g', 'Rohlík RUSTAL 60g', 'Rohlík 43g', 'Rohlík velký 60g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto možnosti:\n\n- Koláč kulatý 80g\n- Koláč velký 130g\n- Koláč kulatý malý 30g\n- Koláč kulatý DIA 80g\n\n- Rohlík ZLATÝ 60g\n- Rohlík RUSTAL 60g\n- Rohlík 43g\n- Rohlík velký 60g\n\nJaký druh koláče a množství rohlíků byste si přál pro vaši objednávku? Děkuji!"
+        },
+        {
+            "role": "user",
+            "content": "Rád bych si objednal jeden velký koláč kulatý 130g a čtyři kusy rohlíků ZLATÝ 60g, prosím. Děkuji moc!"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Koláč velký 130g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Rohlík ZLATÝ 60g",
+                "count": "4"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně přidána do košíku. Máte ještě něco, nač byste se rád zeptal, nebo mohu pokračovat s dokončením objednávky? Děkuji!"
+        },
+        {
+            "role": "user",
+            "content": "Děkuji, to je vše. Mohu pokračovat s dokončením objednávky. Děkuji za vaši pomoc!"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkuji za nákup a přeji Vám dobrý den! Pokud budete chtít objednat znovu nebo potřebujete další pomoc, neváhejte mě kontaktovat. Hezký den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

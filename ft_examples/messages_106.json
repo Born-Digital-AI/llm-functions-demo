@@ -1,0 +1,127 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Vítejte u mě v pekárně. Jak Vám mohu pomoci dnes? Chcete si koupit nějaké pečivo nebo dezerty?"
+        },
+        {
+            "role": "user",
+            "content": "Ano, chtěl bych si koupit croissant a medovník. Kolik to bude stát?"
+        },
+	{
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "croissant",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Rohlík 43g', 'Vánočka 400g', 'Rohlík RUSTAL 60g', 'Rohlík špalda 80g']. "
+        },
+	{
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "medovník",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Bábovka 450g', 'Rohlík 43g', 'Arašídový řez 100g', 'Rohlík špalda 80g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Momentálně nemám croissanty, ale můžu vám nabídnout Rohlík 43g, Rohlík RUSTAL 60g nebo Rohlík špalda 80g. Místo medovníku vám můžu nabídnout následující možnosti: Bábovka 450g nebo Arašídový řez 100g. Zajímá Vás něco jiného nebo si vyberete z této nabídky?"
+        },
+        {
+            "role": "user",
+            "content": "Vezmu si jeden ten arašídový řez."
+        },
+	{
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Arašídový řez 100g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Arašídový řez přidán do košíku. Přejete si ještě něco nebo chce přejít k pokladně?"
+        },
+        {
+            "role": "user",
+            "content": "Ne, děkuji, rád bych zaplatil."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla přijata. Na shledanou!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

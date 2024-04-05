@@ -1,0 +1,125 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Vítejte u mě v pekárně. Jak Vám mohu pomoci dnes? Chcete si něco koupit?"
+        },
+        {
+            "role": "user",
+            "content": "Ano, rád bych koupil malou bagetu a šálek kávy, prosím. Děkuji."
+        },
+        {
+            "role": "assistant",
+            "content": "Nemám možnost nabídnout kávu, ale co se týče bagety, mám několik možností. Jak si přejete pokračovat? Chcete zobrazit alternativy nebo si rovnou vybrat něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Zobrazte prosím alternativy baget. Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "bageta"
+            },
+            "content": "We can offer these options: ['Bageta 150g', 'Banketka 20g', 'Bělohradský chléb 930g', 'Biskupský chlebíček 200g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto možnosti: Bageta 150g, Banketka 20g, Biskupský chlebíček 200g. Prosím, vyberte si z nabízených alternativ nebo mi řekněte, pokud preferujete něco jiného. Děkuji."
+        },
+        {
+            "role": "user",
+            "content": "Zvolím Bagetu 150g, prosím. Díky za nabídku."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Bageta 150g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka Bagety 150g byla úspěšně přidána do košíku. Můžete pokračovat v nákupu nebo dokončit objednávku. Pokud si přejete ještě něco jiného, dejte mi prosím vědět. Děkuji!"
+        },
+        {
+            "role": "user",
+            "content": "Děkuji, to je vše. Dokončím objednávku. Děkuji za vaši pomoc!"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka je kompletní. Děkuji Vám za nákup! Pokud budete mít jakékoli další přání nebo dotazy, neváhejte se ozvat. Pěkný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,109 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Vítejte u mě v pekárně. Jak Vám mohu pomoci dnes? Chcete si něco koupit?"
+        },
+        {
+            "role": "user",
+            "content": "Chtěl bych makovou špičku"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "maková špička"
+            },
+            "content": "We can offer these options: ['Špička s náplní makovou 2ks á 110g', 'Špička s náplní makovou a tvarohovou 2ks á110g', 'Makovec 100g', 'Koláč hřeben 75g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Máme několik možností s makovou náplní: \n- Špička s náplní makovou 2ks á 110g\n- Špička s náplní makovou a tvarohovou 2ks á 110g\n\nJak si přejete pokračovat? Chcete něco z nabízených možností nebo si vybrat něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Jednou Špička s náplní makovou 2ks á 110g"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Špička s náplní makovou 2ks á 110g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně přidána do košíku. Máte ještě zájem o další pečivo nebo si přejete pokračovat k pokladně k úhradě? Co si přejete?"
+        },
+        {
+            "role": "user",
+            "content": "K úhradě"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka je kompletní. Děkuji za nákup! Pokud budete chtít objednat znovu nebo budete mít jakékoli další přání, neváhejte se ozvat. Přeji Vám hezký den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": null
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": null
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

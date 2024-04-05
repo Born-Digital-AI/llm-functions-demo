@@ -1,0 +1,127 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den, vítejte! Jak vám mohu pomoci dnes ohledně pečiva? Máte zájem o nějaké konkrétní druhy chleba, rohlíků, koláčů nebo vánoček? Stačí mi říct, co hledáte."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, rád bych objednal jednu buchtu a jednu vánočku, prosím. Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "buchta",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Buchty 65g', 'Buchty GASTRO 58g', 'Buchty DIA 65g', 'Dukátové buchtičky 1000g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "vánočka",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Vánočka 400g', 'Vánočka s rozinkami 200g', 'Vánočka máslová rozinková mandlová 600g', 'Vánočka DIA 400g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Můžu vám nabídnout tyto možnosti:\n\n- **Buchty 65g**\n- **Buchty GASTRO 58g**\n- **Buchty DIA 65g**\n- **Dukátové buchtičky 1000g**\n\n- **Vánočka 400g**\n- **Vánočka s rozinkami 200g**\n- **Vánočka máslová rozinková mandlová 600g**\n- **Vánočka DIA 400g**\n\nPokud je něco z této nabídky blízké vašemu původnímu požadavku, dejte mi vědět, jaké alternativy vás zajímají. Děkuji."
+        },
+        {
+            "role": "user",
+            "content": "Dobře, mohu si objednat dvě vánočky s rozinkami, prosím? Děkuji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Vánočka s rozinkami 200g",
+                "count": "2"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka na dvě vánočky s rozinkami byla úspěšně přidána do košíku. Máte ještě něco, s čím vám mohu pomoci, nebo si přejete pokračovat k pokladně? Děkuji."
+        },
+        {
+            "role": "user",
+            "content": "Děkuji, je to vše. Pokračuji k pokladně. Mějte krásný den!"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Děkuji vám za nákup! Přeji vám skvělý den a těším se na vaši příští návštěvu. Hasta la vista!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

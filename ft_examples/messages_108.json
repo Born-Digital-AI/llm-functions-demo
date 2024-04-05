@@ -1,0 +1,135 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes v nákupu pečiva? Máte zájem o nějaké konkrétní pečivo nebo si chcete prohlédnout naši nabídku?"
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den, rád bych objednal jednu bagetu s bylinkovým máslem, prosím. Děkuji!"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "bageta s bylinkovým máslem",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Mazanec máslový 400g', 'Biskupský chlebíček 200g', 'Bageta 150g', 'Mazanec s rozinkami sypaný mandlemi 400g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale bohužel momentálně bagetu s bylinkovým máslem nenabízíme. Mohu Vám nabídnout něco z našeho podobného sortimentu, jako například bageta 150g? Nebo byste si přál něco jiného? Děkuji za pochopení."
+        },
+        {
+            "role": "user",
+            "content": "Moc děkuji za nabídku. Nakonec bych si dal spíš mazanec."
+	},
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "mazanec",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these options: ['Mazanec 400g', 'Mazanec s rozinkami sypaný mandlemi 400g', 'Mazanec máslový 400g', 'Vánočka mandlová 400g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Můžeme nabídnout tyto možnosti: \n\n- Mazanec 400g\n- Mazanec s rozinkami sypaný mandlemi 400g\n- Mazanec máslový 400g\n\nVyberte si prosím jeden z nich nebo pokud žádný z nich není to, co hledáte, dejte mi vědět a rád(a) vám nabídnu další možnosti."
+        },
+     {
+            "role": "user", 
+	    "content": "Rád bych si tedy objednal mazanec s rozinkami sypaný mandlemi. Děkuji a přeji hezký den!"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Mazanec s rozinkami sypaný mandlemi 400g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Mazanec s rozinkami sypaný mandlemi byl úspěšně přidán do košíku. \n\nMáte již všechno, nebo si přejete ještě něco dalšího?"
+        },
+        {
+            "role": "user",
+            "content": "Ano, to je v pořádku, rád si tento mazanec zakoupím. Děkuji Vám a přeji hezký den taky!"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla dokončena. Děkuji za nákup! Přeji Vám krásný den! Pokud budete potřebovat další pomoc nebo další pečivo, neváhejte se ozvat. Mějte se!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

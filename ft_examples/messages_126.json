@@ -1,0 +1,136 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes ohledně pečiva? Máte zájem o nějaké konkrétní pečivo nebo byste si nechali něco doporučit?"
+        },
+        {
+            "role": "user",
+            "content": "Chtěl bych prosím jeden ovocný koláč a jednu domácí bábovku, kus každého. Děkuji!"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "ovocný koláč",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Koláč kulatý 80g', 'Koláč šáteček 75g', 'Koláč velký 130g', 'Koláč kulatý DIA 80g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "domácí bábovka",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Bábovka 450g', 'Bábovka DIA 450g', 'Taštička povidlová 70g', 'Vánočka 400g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Omlouvám se, ale momentálně nemáme přesně ovocný koláč a domácí bábovku k dispozici. Mohu Vám nabídnout některé alternativy: \n\nPro ovocný koláč můžeme nabídnout:\n- Koláč kulatý 80g\n- Koláč šáteček 75g\n- Koláč velký 130g\n- Koláč kulatý DIA 80g\n\nPro domácí bábovku máme tyto možnosti:\n- Bábovka 450g\n- Bábovka DIA 450g\n\nMohu Vám některý z těchto alternativních pečivových výrobků nabídnout nebo byste preferoval něco jiného? Děkuji za pochopení."
+        },
+        {
+            "role": "user",
+            "content": "Dobře, zvolím velký koláč a bábovku DIA 450g. Děkuji za nabídku!"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Koláč velký 130g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Bábovka DIA 450g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělá volba! Velký ovocný koláč a bábovka DIA 450g byly úspěšně přidány do košíku. Máte ještě zájem o něco dalšího nebo mohu pokračovat s dokončením objednávky? Děkuji!"
+        },
+        {
+            "role": "user",
+            "content": "Dokončete prosím objednávku. Děkuji!"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně dokončena. Děkuji za nákup a přeji pěkný den! Pokud budete mít další přání ohledně pečiva, neváhejte se ozvat. Hezký den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

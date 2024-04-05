@@ -1,0 +1,144 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak Vám mohu pomoci dnes ohledně pečiva? Máte zájem o nějaké konkrétní pečivo, jako jsou chleby, rohlíky, koláče nebo vánočky? Stačí mi říct, co hledáte, a já Vám rád pomůžu vybrat."
+        },
+        {
+            "role": "user",
+            "content": "Chtěl bych si koupit koláč a vánočku, prosím. Děkuji!"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "koláč",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Koláč kulatý 80g', 'Koláč velký 130g', 'Koláč kulatý malý 30g', 'Koláč kulatý DIA 80g']. "
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "vánočka",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Vánočka 400g', 'Vánočka s rozinkami 200g', 'Vánočka máslová rozinková mandlová 600g', 'Vánočka DIA 400g']. "
+        },
+        {
+            "role": "assistant",
+            "content": "Mohu Vám nabídnout tyto alternativy:\n\nKoláče: \n1. Koláč kulatý 80g\n2. Koláč velký 130g\n3. Koláč kulatý malý 30g\n4. Koláč kulatý DIA 80g\n\nVánočky: \n1. Vánočka 400g\n2. Vánočka s rozinkami 200g\n3. Vánočka máslová s rozinková mandlová 600g\n4. Vánočka DIA 400g\n\nProsím, zda byste mohl/a vybrat některou z těchto alternativ nebo mi říci, jaký konkrétní druh koláčů a vánoček hledáte? Děkuji!"
+        },
+        {
+            "role": "user",
+            "content": "Rád bych si koupil koláč kulatý 80g a vánočku s rozinkami 200g. Děkuji!"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Koláč kulatý 80g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Vánočka s rozinkami 200g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Perfektní volba! Koláč kulatý 80g a vánočka s rozinkami 200g byly úspěšně přidány do Vašeho nákupního košíku. Máte-li ještě zájem o něco dalšího, dejte mi vědět, rád Vám pomůžu s dalším výběrem. Jakékoliv další pečivo, které byste chtěl/a zakoupit?"
+        },
+        {
+            "role": "user",
+            "content": "Děkuji za pomoc, toto pečivo mi plně postačuje."
+        },
+        {
+            "role": "assistant",
+            "content": "Přejete si dokončit objednávku?"
+        },
+        {
+            "role": "user",
+            "content": "Ano"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla přijata. Děkujeme za nákup! Na shledanou!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

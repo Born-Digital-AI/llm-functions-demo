@@ -1,0 +1,199 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jsem pekařský prodavač. Jak vám mohu pomoci dnes s nákupem pečiva? Máte nějaké konkrétní přání ohledně chlebů, rohlíků, nebo třeba koláčů?"
+        },
+        {
+            "role": "user",
+            "content": "Jaké máte koláče?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "koláče"
+            },
+            "content": "We can offer these options: ['Koláč kulatý 80g', 'Koláč velký 130g', 'Koláček balený kulatý (tácek) -malé bal. 125g', 'Koláč větší vázaný 100g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Máme tyto možnosti koláčů: Koláč kulatý 80g, Koláč velký 130g, Koláček balený kulatý (tácek) - malé balení 125g a Koláč větší vázaný 100g. Jaký druh koláče byste si přál/a?"
+        },
+        {
+            "role": "user",
+            "content": "Jeden velký"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Koláč velký 130g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka Koláče velký 130g byla úspěšně přidána do košíku. Můžeme pokračovat s dalším nákupem nebo si můžete prohlédnout další pečivo. Jak vám mohu dále pomoci?"
+        },
+        {
+            "role": "user",
+            "content": "Máte koblihy?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "koblihy"
+            },
+            "content": "We can offer these options: ['Buchty 65g', 'Kobliha PUDING 60g', 'Koláček balený kulatý (tácek) -malé bal. 125g', 'Koláč kulatý malý 30g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Bohužel koblihy nemáme. Mohu vám nabídnout něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "A nemáte čokoládovou koblihu?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "čokoládová kobliha"
+            },
+            "content": "We can offer these options: ['Koláček balený kulatý (tácek) -malé bal. 125g', 'Koláč kulatý malý 30g', 'Koláč kulatý 80g', 'Kobliha čoko GASTRO 43g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Ano, máme čokoládovou koblihu! Nabízíme možnost Kobliha čoko GASTRO 43g. Zajímá vás tato čokoládová kobliha?"
+        },
+        {
+            "role": "user",
+            "content": "Ano, vezmu si ji."
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Kobliha čoko GASTRO 43g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka čokoládové koblihy byla úspěšně přidána do košíku. Máte v košíku ještě něco dalšího, nebo si přejete pokračovat v nákupu?"
+        },
+        {
+            "role": "user",
+            "content": "Přeji si pokračovat"
+        },
+        {
+            "role": "assistant",
+            "content": "Co byste si ještě přál/a? Máte zájem o nějaké konkrétní pečivo nebo si přejete prohlédnout další možnosti? Stačí mi říct, jak vám mohu dále pomoci."
+        },
+        {
+            "role": "user",
+            "content": "Jakou máte bábovku?"
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "bábovka"
+            },
+            "content": "We can offer these options: ['Bábovka 450g', 'Bábovka DIA 450g', 'Bábovky MIX (3ks mramorová 400g, 3ks šlehaná 400g) 2400g', 'Taštička povidlová 70g']. If some oh these items are not bábovka, don't mention them."
+        },
+        {
+            "role": "assistant",
+            "content": "Máme tyto možnosti bábovek: Bábovka 450g, Bábovka DIA 450g a Bábovky MIX (3 ks mramorová 400g, 3 ks šlehaná 400g) 2400g. Kterou bábovku byste si přál/a?"
+        },
+        {
+            "role": "user",
+            "content": "Tu první"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Bábovka 450g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka Bábovky 450g byla úspěšně přidána do košíku. Máte v košíku nyní všechno, co jste chtěl/a, nebo si přejete ještě něco dalšího? Stačí mi říct, jak vám mohu dále pomoci."
+        },
+        {
+            "role": "user",
+            "content": "Hotovo"
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka je hotová. Děkuji za nákup! Pokud budete potřebovat v budoucnu pomoc s nákupy pečiva, neváhejte mě kontaktovat. Mějte krásný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": null
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": null
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}

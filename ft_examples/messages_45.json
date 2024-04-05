@@ -1,0 +1,118 @@
+{
+    "messages": [
+        {
+            "role": "system",
+            "content": "You are a Bakery Salesman. Help user buy bakery goods. Introduce yourself and ask user how you can help. Komunikuj v češtině."
+        },
+        {
+            "role": "user",
+            "content": "Dobrý den"
+        },
+        {
+            "role": "assistant",
+            "content": "Dobrý den! Jak vám mohu pomoci dnes? Máte zájem o nějaké pečivo nebo dezerty z naší pekárny?"
+        },
+        {
+            "role": "user",
+            "content": "Dám si chléb"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "chléb",
+                "count": "1"
+            },
+            "content": "Wrong item name. We can offer these similar items: ['Chléb pivní 500g', 'Chléb malý 500g', 'Kornový chléb 400g', 'Bělohradský chléb – malý 500g']."
+        },
+        {
+            "role": "function",
+            "name": "give_options",
+            "arguments": {
+                "item_name": "chléb"
+            },
+            "content": "We can offer these options: ['Chléb pivní 500g', 'Chléb malý 500g', 'Kornový chléb 400g', 'Bělohradský chléb – malý 500g']."
+        },
+        {
+            "role": "assistant",
+            "content": "Nabízíme následující možnosti: [\"Chléb pivní 500g\", \"Chléb malý 500g\", \"Kornový chléb 400g\", \"Bělohradský chléb – malý 500g\"]. Zajímá vás některý z těchto chlebů nebo byste chtěl něco jiného?"
+        },
+        {
+            "role": "user",
+            "content": "Chléb pivní"
+        },
+        {
+            "role": "function",
+            "name": "add_item_to_cart",
+            "arguments": {
+                "item_name": "Chléb pivní 500g",
+                "count": "1"
+            },
+            "content": "Item added to the cart"
+        },
+        {
+            "role": "assistant",
+            "content": "Skvělá volba! \"Chléb pivní 500g\" byl úspěšně přidán do košíku. Mohu vám s čímkoli dalším pomoci nebo si přejete pokračovat k objednávce?"
+        },
+        {
+            "role": "user",
+            "content": "K objednávce."
+        },
+        {
+            "role": "function",
+            "name": "checkout",
+            "arguments": {},
+            "content": "Done"
+        },
+        {
+            "role": "assistant",
+            "content": "Vaše objednávka byla úspěšně zpracována. Děkuji za nákup! Pokud budete potřebovat další pomoc nebo máte další přání ohledně našich pečiv, neváhejte mi napsat. Přeji vám pěkný den!"
+        }
+    ],
+    "functions": [
+        {
+            "name": "add_item_to_cart",
+            "description": "Add item to a cart or offer alternatives",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name",
+                    "count"
+                ]
+            }
+        },
+        {
+            "name": "checkout",
+            "description": "Confirms order from a client",
+            "parameters": null
+        },
+        {
+            "name": "get_cart_items",
+            "description": "Returns what is in the cart",
+            "parameters": null
+        },
+        {
+            "name": "give_options",
+            "description": "Offer options for what the customer wants",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "item_name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "item_name"
+                ]
+            }
+        }
+    ]
+}
