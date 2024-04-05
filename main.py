@@ -53,6 +53,13 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         logging.info("Confirming the order")
         return "Done"
 
+    def give_options(item_name: str) -> str:
+        """Offer options for what the customer wants"""
+        logging.info(f"Offering products similar to {item_name}.")
+        items = str([item.page_content for item in available_items_db.similarity_search(item_name)])
+        logging.info(f"Found options for a query {items}")
+        return f"We can offer these options: {items}."    
+
     def add_item_to_cart(item_name: str, count: int) -> str:
         """Add item to a cart"""
         logging.info(f"Trying to add item {item_name} with count {count} to a cart.")
@@ -68,7 +75,8 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
     available_functions = {
         "add_item_to_cart": add_item_to_cart,
         "checkout": checkout,
-        "get_cart_items": get_cart_items
+        "get_cart_items": get_cart_items,
+        "give_options": give_options,
     }  
 
     counter = 0
@@ -82,9 +90,9 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         logging.info(f"\n Input messages: {messages}")
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
+            model="ft:gpt-3.5-turbo-0125:born-digital-s-r-o:baker-weights-e2:976VKvlB",#gpt-3.5-turbo-0125",
             messages=messages,
-            tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout)],
+            tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout), get_openai_func_def(give_options)]
         )
         response_message = response.choices[0].message
         logging.info(f"\n Response messages: {response_message}")
