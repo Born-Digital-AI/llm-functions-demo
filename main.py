@@ -50,28 +50,6 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
 
     def checkout() -> str:
         """Confirms order and sents confirmation sms with a cart content to user phone number"""
-#        logging.info(f"sending sms to {phone_number}")#
-#
-#        if phone_number is None:
-#            logging.info("Number is None")
-#            return "We need a 9 digit phone number."#
-#
-#        if len(phone_number) != 9 or phone_number == "123456789":
-#            logging.info("Number is not valid")
-#            return "phone number should be valid 9 digits long. Supporting only czech numbers without international prefix."#
-#
-#        # Define the URL
-#        url = "https://http-api.smsmanager.cz/Send"#
-#
-#        # Specify the payload as a dictionary
-#        payload = {
-#            'apikey': 'xxx',
-#            'number': f'420{phone_number}',
-#            'message': message
-#        }#
-#
-#        # Make the POST request
-#        response = requests.post(url, data=payload)
         logging.info("Confirming the order")
         return "Done"
 
@@ -117,7 +95,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         logging.info(f"\n Input messages: {messages}")
 
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo-0125",
+            model="gpt-4o-2024-05-13",
             messages=messages,
             tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout), get_openai_func_def(check_availability)],
         )
