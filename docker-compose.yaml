@@ -2,7 +2,7 @@ version: "3.9"
 services:
   server:
     build: .
-    image: borndigitalaibot/llm-functions-demo:0.1.0
+    image: borndigitalaibot/llm-functions-demo:0.1.2
     ports:
       - "8822:8822"
     env_file:

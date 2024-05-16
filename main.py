@@ -19,12 +19,36 @@ from utils import get_openai_func_def
 app = FastAPI()
 client = OpenAI(timeout=10.0, max_retries=2)
 
-
 DEFAULT_MSG = [
     {"role": "system", "content": "You are a Bakery Salesman John. Help user buy bakery goods. Briefly introduce yourself and ask user how you can help. Komunikuj v češtině."},
 ]
 
 IN_MEM_DATA = {}
+
+def llm_command(query: str, options: str) -> str:   
+    messages = [
+        {
+            "role": "system",
+            "content": "The user selects goods and has 3 options to choose from. If the choice is unambiguous, return only one value. If the choice is ambiguous, return a list of products that are considered. If nothing matches, do not return anything. Respond in JSON format in the parameter item_list (list)."
+        },
+        {
+            "role": "user",
+            "content": f"User query: {query}; available options: {options}"
+        }
+    ]
+    try:
+        # Requesting the AI to generate a Python function
+        response = client.chat.completions.create(
+            model="gpt-4o-2024-05-13",
+            messages=messages,
+            max_tokens=2000,
+            response_format={ "type": "json_object" }
+        )
+        returned_text = response.choices[0].message.content
+        logging.info(f"LLM answer: {returned_text}")
+        return returned_text
+    except Exception as e:
+        raise ValueError(f"An error occurred while generating the function: {str(e)}")
 
 
 def get_data(CID):
@@ -53,35 +77,30 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         logging.info("Confirming the order")
         return "Done"
 
-    def check_availability(item_name: str) -> str:
-        """Check if the item is available"""
-        logging.info("Checking availability")
-        if item_name in available_items:
-            logging.info("Item aiavilable")
-            return "Item is available"
-        else:
-            items = str([item.page_content for item in available_items_db.similarity_search(item_name)][:3])
-            logging.info(f"Found options for a query {items}")
-            return f"Wrong item name. Give user a choice if it is not clear what he wants: {items}"    
-        return "Done"
-
     def add_item_to_cart(item_name: str, count: int) -> str:
         """Add item to a cart"""
         logging.info(f"Trying to add item {item_name} with count {count} to a cart.")
         if item_name in available_items:
             cart.append({"item_name": item_name, "count": count})
             logging.info("Item added to the cart")
-            return "Item added to the cart"
+            return f"Item '{item_name}' with count {count} added to the cart"
         else:
             items = str([item.page_content for item in available_items_db.similarity_search(item_name)][:3])
-            logging.info(f"Found options for a query {items}")
-            return f"Wrong item name. Give user a choice if it is not clear what he wants. Otherwise add corect item to the basket. Options: {items}"    
+            result = json.loads(llm_command(item_name, items))["item_list"]
+            if len(result) == 1:
+                cart.append({"item_name": result[0], "count": count})
+                logging.info("LLM filter. Item added to the cart")
+                return f"Item '{result[0]}' with count {count} added to the cart"
+            elif len(result) == 0:
+                return f"This nor similar items are not in the stock."    
+            else:
+                logging.info(f"Found options for a query {items}")
+                return f"Wrong item name.\n Offer user these possible options: {items}"    
 
     available_functions = {
         "add_item_to_cart": add_item_to_cart,
         "checkout": checkout,
-        "get_cart_items": get_cart_items,
-        "check_availability": check_availability
+        "get_cart_items": get_cart_items
     }  
 
     counter = 0
@@ -97,7 +116,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         response = client.chat.completions.create(
             model="gpt-4o-2024-05-13",
             messages=messages,
-            tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout), get_openai_func_def(check_availability)],
+            tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout)],
         )
         response_message = response.choices[0].message
         logging.info(f"\n Response messages: {response_message}")
