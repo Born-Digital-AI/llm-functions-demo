@@ -6,15 +6,16 @@ def encode_text(text):
     return urllib.parse.quote(text)
 
 def main():
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         print("Usage: python script.py <text>")
         sys.exit(1)
 
-    CID = sys.argv[1]
-    text_to_encode = sys.argv[2]
+    model = sys.argv[1]
+    CID = sys.argv[2]
+    text_to_encode = sys.argv[3]
     encoded_text = encode_text(text_to_encode)
 
-    url = f"http://0.0.0.0:8824/conversation/{CID}/user/"
+    url = f"http://0.0.0.0:8824/conversation/{model}/{CID}/user/"
     params = {
         'text': encoded_text
     }

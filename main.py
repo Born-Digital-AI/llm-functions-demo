@@ -38,8 +38,8 @@ def get_data(CID):
         return copy.deepcopy(DEFAULT_MSG), []
 
 
-@app.get("/conversation/{CID}/user/")
-async def get_conversation_user(CID: str, text: str = Query(None)):
+@app.get("/conversation/{model}/{CID}/user/")
+async def get_conversation_user(CID: str, model: str = "gpt-3.5-turbo-0125" , text: str = Query(None)):
 
     messages, cart = get_data(CID)
 
@@ -90,7 +90,7 @@ async def get_conversation_user(CID: str, text: str = Query(None)):
         logging.info(f"\n Input messages: {messages}")
 
         response = client.chat.completions.create(
-            model="ft:gpt-3.5-turbo-0125:born-digital-s-r-o:baker-weights-e2:976VKvlB",#gpt-3.5-turbo-0125",
+            model=model,
             messages=messages,
             tools=[get_openai_func_def(get_cart_items), get_openai_func_def(add_item_to_cart), get_openai_func_def(checkout), get_openai_func_def(give_options)]
         )
